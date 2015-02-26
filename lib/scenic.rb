@@ -1,4 +1,6 @@
 require "scenic/adapters/postgres"
+require "scenic/adapters/mysql2"
+
 require "scenic/command_recorder"
 require "scenic/definition"
 require "scenic/railtie"
@@ -15,6 +17,15 @@ module Scenic
   end
 
   def self.database
-    Scenic::Adapters::Postgres
+    adapter_type = ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+
+    case adapter_type
+    when :mysql2
+      Scenic::Adapters::Mysql2
+    when :postgresql
+      Scenic::Adapters::Postgres
+    else
+      raise NotImplementedError, "Unknown adapter type '#{adapter_type}'"
+    end
   end
 end
