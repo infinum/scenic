@@ -3,9 +3,9 @@ module Scenic
     module Mysql2
       def self.views
         execute(<<-SQL).map { |result| Scenic::View.new(result) }
-			SELECT TABLE_NAME, VIEW_DEFINITION, TABLE_SCHEMA 
-			FROM information_schema.VIEWS 
-			WHERE TABLE_SCHEMA = DATABASE();
+          SELECT TABLE_NAME, VIEW_DEFINITION, TABLE_SCHEMA 
+          FROM information_schema.VIEWS 
+          WHERE TABLE_SCHEMA = DATABASE();
         SQL
       end
 
